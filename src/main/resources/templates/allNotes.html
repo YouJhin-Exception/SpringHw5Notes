@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Notes</title>
+    <style>
+        body {
+            background-color: #333; /* Цвет фона */
+            color: #fff; /* Цвет текста */
+            font-family: Arial, sans-serif; /* Шрифт */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* Размещаем элементы вертикально */
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px; /* Отступ сверху от таблицы */
+        }
+        th, td {
+            border: 1px solid #fff; /* Цвет границ таблицы */
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #555; /* Цвет заголовка таблицы */
+        }
+        tr:nth-child(even) {
+            background-color: #666; /* Цвет четных строк таблицы */
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Кнопки выравниваются по правому краю */
+            width: 80%; /* Ширина кнопок и выбора */
+        }
+        .buttons select {
+            margin-left: 10px; /* Отступ между выбором и кнопкой Delete Note */
+            padding: 8px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+        .buttons button {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px; /* Отступ между кнопками */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>All Notes</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Create Date</th>
+        <!-- Другие заголовки, если необходимо -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Вывод данных из модели -->
+    <th:block th:each="note : ${notes}">
+        <tr>
+            <td th:text="${note.id}"></td>
+            <td th:text="${note.description}"></td>
+            <td th:text="${note.status}"></td>
+            <td th:text="${note.createDate}"></td>
+            <!-- Другие ячейки, если необходимо -->
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+<div class="buttons">
+    <button onclick="window.location.href='/notes/addNote'">Add Note</button>
+
+    <form action="/notes/viewByStatusNote" method="POST">
+
+        <button type="submit">View Note by Status</button>
+
+        <select name="status">
+            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"></option>
+        </select>
+
+    </form>
+
+    <form action="/notes/statNote" method="POST">
+
+        <button type="submit">Edit Status Note</button>
+
+        <select name="noteId">
+            <th:block th:each="note : ${notes}">
+                <option th:value="${note.id}" th:text="${note.id}"></option>
+            </th:block>
+        </select>
+
+        <select name="status">
+            <option th:each="status : ${statuses}" th:if="${status.displayName != 'All'}" th:value="${status}" th:text="${status.displayName}"></option>
+        </select>
+
+    </form>
+
+    <form action="/notes/delNote" method="POST">
+
+        <button type="submit">Delete Note</button>
+
+        <select name="noteId">
+            <th:block th:each="note : ${notes}">
+                <option th:value="${note.id}" th:text="${note.id}"></option>
+            </th:block>
+        </select>
+
+    </form>
+</div>
+</body>
+</html>
