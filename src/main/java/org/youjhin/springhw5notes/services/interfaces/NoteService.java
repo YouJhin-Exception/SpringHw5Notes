@@ -15,4 +15,6 @@ public interface NoteService {
     void updateStatusNote(Long id, Status newStatus);
 
     void deleteNote(Long id);
+
+    NoteEntity findById(Long noteId);
 }
