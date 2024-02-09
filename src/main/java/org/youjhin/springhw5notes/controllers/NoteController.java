@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.youjhin.springhw5notes.enums.Status;
 import org.youjhin.springhw5notes.model.NoteEntity;
 import org.youjhin.springhw5notes.services.interfaces.NoteService;
-import org.youjhin.springhw5notes.services.interfaces.WorkerService;
 
 import java.util.List;
 

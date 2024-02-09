@@ -87,6 +87,7 @@
 <h1>All Notes</h1>
 <div class="buttonsWork">
     <button onclick="window.location.href='/workers'">Assign Worker</button>
+    <button onclick="window.location.href='/login?logout'">Logout</button>
 </div>
 <table>
     <thead>
@@ -153,16 +154,13 @@
     </form>
 
     <form action="/notes/delNote" method="POST">
-
         <select name="noteId">
             <option value="" disabled selected>Select Note id</option>
             <th:block th:each="note : ${notes}">
                 <option th:value="${note.id}" th:text="${note.id}"></option>
             </th:block>
         </select>
-
         <button type="submit">Delete Note</button>
-
     </form>
 </div>
 </body>

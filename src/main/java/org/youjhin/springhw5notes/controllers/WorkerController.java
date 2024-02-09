@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,6 +86,7 @@ public class WorkerController {
      * @param model Модель для добавления данных о заметке и работнике для отображения.
      * @return Наименование представления для формы назначения работника на заметку.
      */
+
     @Operation(summary = "Показать форму для назначения работника на заметку")
     @GetMapping("/assignedWorker")
     public String showForm(Model model) {
