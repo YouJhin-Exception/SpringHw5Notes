@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Note</title>
+    <title>Access Denied</title>
     <style>
         body {
             background-color: #333; /* Цвет фона */
@@ -36,7 +36,13 @@
         }
     </style>
 </head>
+<title>Access Denied</title>
+<script>
+    setTimeout(function() {
+        window.location.href = '/notes';
+    }, 2000); // Перенаправление пользователя на главную страницу через 2 секунды
+</script>
 <body>
-<h1>Note delete</h1>
+<h1>У вас недостаточно прав доступа</h1>
 </body>
 </html>

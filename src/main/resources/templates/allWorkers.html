@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Workers</title>
+    <style>
+        body {
+            background-color: #333; /* Цвет фона */
+            color: #fff; /* Цвет текста */
+            font-family: Arial, sans-serif; /* Шрифт */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* Размещаем элементы вертикально */
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px; /* Отступ сверху от таблицы */
+        }
+        th, td {
+            border: 1px solid #fff; /* Цвет границ таблицы */
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #555; /* Цвет заголовка таблицы */
+        }
+        tr:nth-child(even) {
+            background-color: #666; /* Цвет четных строк таблицы */
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center; /* Кнопки выравниваются по правому краю */
+            width: 80%; /* Ширина кнопок и выбора */
+        }
+        .buttons select {
+            margin-left: 10px; /* Отступ между выбором и кнопкой Delete Note */
+            padding: 8px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+        .buttons button {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px; /* Отступ между кнопками */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>All Workers</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Assigned to</th>
+        <!-- Другие заголовки, если необходимо -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Вывод данных из модели -->
+    <th:block th:each="worker : ${workers}">
+        <tr>
+            <td th:text="${worker.id}"></td>
+            <td th:text="${worker.name}"></td>
+            <td th:text="${worker.workerTask}"></td>
+            <!-- Другие ячейки, если необходимо -->
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+<div class="buttons">
+
+    <button onclick="window.location.href='/workers/addWorker'">Add Worker</button>
+
+    <button onclick="window.location.href='/workers/assignedWorker'">Assigned Worker </button>
+
+
+</div>
+<div class="buttons">
+
+    <form action="/workers/takeOffWorker" method="POST">
+
+        <select name="workerId">
+            <option value="" disabled selected>Select Worker id</option>
+            <th:block th:each="worker : ${workers}">
+                <option th:value="${worker.id}" th:text="${worker.id}"></option>
+            </th:block>
+
+        </select>
+
+        <button type="submit">Take off Task</button>
+
+    </form>
+
+</div>
+</body>
+</html>

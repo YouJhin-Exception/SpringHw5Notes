@@ -1,6 +1,10 @@
 package org.youjhin.springhw5notes.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +21,9 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/notes")
+@Tag(name = "Note API", description = "API для управления заметками")
 public class NoteController {
     private final NoteService noteService;
-
     /**
      * Конструирует NoteController с указанным NoteService.
      *
@@ -36,6 +40,7 @@ public class NoteController {
      * @param model Модель для передачи данных в представление.
      * @return Представление со списком всех заметок.
      */
+    @Operation(summary = "Получить все заметки", responses = {@ApiResponse(description = "Успешно", responseCode = "200")})
     @GetMapping()
     public String getAllNotes(Model model) {
         model.addAttribute("notes", noteService.getAllNotes());
@@ -47,6 +52,7 @@ public class NoteController {
      *
      * @return Представление с формой для добавления заметки.
      */
+    @Operation(summary = "Показать форму для добавления новой заметки")
     @GetMapping("/addNote")
     public String showAddNoteForm() {
         return "addNote";
@@ -58,8 +64,11 @@ public class NoteController {
      * @param note Новая заметка для сохранения.
      * @return Перенаправление на страницу со всеми заметками.
      */
+    @Operation(summary = "Сохранить новую заметку", responses = {
+            @ApiResponse(description = "Перенаправление на список всех заметок", responseCode = "302")
+    })
     @PostMapping("/saveNote")
-    public String saveNote(NoteEntity note) {
+    public String saveNote(@Parameter(description = "Новая заметка для сохранения") NoteEntity note) {
         noteService.createNote(note);
         return "redirect:/notes";
     }
@@ -71,7 +80,8 @@ public class NoteController {
      * @return Перенаправление на страницу со всеми заметками.
      */
     @PostMapping("/delNote")
-    public String deleteNote(@RequestParam("noteId") Long noteId){
+    public String deleteNote(@Parameter(description = "ID заметки для удаления") @RequestParam("noteId") Long noteId) {
+
         noteService.deleteNote(noteId);
         return "redirect:/notes";
     }
@@ -83,8 +93,13 @@ public class NoteController {
      * @param status Новый статус для заметки.
      * @return Перенаправление на страницу со всеми заметками.
      */
+    @Operation(summary = "Обновить статус заметки", responses = {
+            @ApiResponse(description = "Перенаправление на список всех заметок", responseCode = "302")
+    })
     @PostMapping("/statNote")
-    public String updateStatusNote(@RequestParam("noteId") Long noteId, @RequestParam("status") Status status){
+    public String updateStatusNote(
+            @Parameter(description = "ID заметки, статус которой нужно обновить") @RequestParam("noteId") Long noteId,
+            @Parameter(description = "Новый статус заметки") @RequestParam("status") Status status) {
         noteService.updateStatusNote(noteId,status);
         return "redirect:/notes";
     }
@@ -96,8 +111,12 @@ public class NoteController {
      * @param model Модель для передачи данных в представление.
      * @return Представление со списком заметок с выбранным статусом или всеми заметками.
      */
+    @Operation(summary = "Отобразить заметки по выбранному статусу", responses = {
+            @ApiResponse(description = "Успешно", responseCode = "200")
+    })
     @PostMapping("/viewByStatusNote")
-    public String viewByStatus(@RequestParam(value = "status", defaultValue = "ALL") Status status, Model model){
+    public String viewByStatus(
+            @Parameter(description = "Статус заметок для отображения", required = false) @RequestParam(value = "status", defaultValue = "ALL") Status status, Model model) {
 
         List<NoteEntity> notesByStatus;
         if (status.equals(Status.ALL)){

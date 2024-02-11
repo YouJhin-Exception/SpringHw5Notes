@@ -36,7 +36,7 @@
         .buttons {
             margin-top: 20px;
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: flex-end; /* Кнопки выравниваются по правому краю */
             width: 80%; /* Ширина кнопок и выбора */
         }
@@ -57,10 +57,38 @@
             margin-left: 10px; /* Отступ между кнопками */
             cursor: pointer;
         }
+        .buttonsWork {
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end; /* Кнопки выравниваются по правому краю */
+            width: 80%; /* Ширина кнопок и выбора */
+        }
+        .buttonsWork select {
+            margin-left: 10px; /* Отступ между выбором и кнопкой Delete Note */
+            padding: 8px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+        .buttonsWork button {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px; /* Отступ между кнопками */
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <h1>All Notes</h1>
+<div class="buttonsWork">
+    <button onclick="window.location.href='/workers'">Assign Worker</button>
+    <button onclick="window.location.href='/login?logout'">Logout</button>
+</div>
 <table>
     <thead>
     <tr>
@@ -68,6 +96,7 @@
         <th>Description</th>
         <th>Status</th>
         <th>Create Date</th>
+        <th>Designated Workers</th>
         <!-- Другие заголовки, если необходимо -->
     </tr>
     </thead>
@@ -79,50 +108,59 @@
             <td th:text="${note.description}"></td>
             <td th:text="${note.status}"></td>
             <td th:text="${note.createDate}"></td>
+
+            <td>
+                <ul>
+                    <li th:each="worker : ${note.workers}" th:text="${worker.name}"></li>
+                </ul>
+            </td>
+
             <!-- Другие ячейки, если необходимо -->
         </tr>
     </th:block>
     </tbody>
 </table>
 <div class="buttons">
+
     <button onclick="window.location.href='/notes/addNote'">Add Note</button>
 
     <form action="/notes/viewByStatusNote" method="POST">
 
-        <button type="submit">View Note by Status</button>
-
         <select name="status">
+            <option value="" disabled selected>Select status</option>
             <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"></option>
         </select>
+
+        <button type="submit">View Note by Status</button>
 
     </form>
 
     <form action="/notes/statNote" method="POST">
 
-        <button type="submit">Edit Status Note</button>
-
         <select name="noteId">
+            <option value="" disabled selected>Select Note id</option>
             <th:block th:each="note : ${notes}">
                 <option th:value="${note.id}" th:text="${note.id}"></option>
             </th:block>
         </select>
 
         <select name="status">
+            <option value="" disabled selected>Select status</option>
             <option th:each="status : ${statuses}" th:if="${status.displayName != 'All'}" th:value="${status}" th:text="${status.displayName}"></option>
         </select>
+
+        <button type="submit">Edit Status Note</button>
 
     </form>
 
     <form action="/notes/delNote" method="POST">
-
-        <button type="submit">Delete Note</button>
-
         <select name="noteId">
+            <option value="" disabled selected>Select Note id</option>
             <th:block th:each="note : ${notes}">
                 <option th:value="${note.id}" th:text="${note.id}"></option>
             </th:block>
         </select>
-
+        <button type="submit">Delete Note</button>
     </form>
 </div>
 </body>

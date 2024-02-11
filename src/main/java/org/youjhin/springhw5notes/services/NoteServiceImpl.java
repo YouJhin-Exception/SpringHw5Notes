@@ -9,6 +9,7 @@ import org.youjhin.springhw5notes.repository.NoteRepository;
 import org.youjhin.springhw5notes.services.interfaces.NoteService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -92,4 +93,17 @@ public class NoteServiceImpl implements NoteService {
     public void deleteNote(Long id) {
         noteRepository.deleteById(id);
     }
+
+    /**
+     * Находим заметку с указанным ID.
+     *
+     * @param noteId ID заметки для поиска.
+     * @throws NoSuchElementException Если заметка не найдена.
+     */
+    @Override
+    public NoteEntity findById(Long noteId) {
+        return noteRepository.findById(noteId)
+                .orElseThrow(() -> new NoSuchElementException("Note with id: " + noteId + " was not found."));
+    }
+
 }

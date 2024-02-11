@@ -10,4 +10,3 @@ spring:
     username: jhin
     password: 333
     driver-class-name: com.mysql.cj.jdbc.Driver
-
