@@ -10,3 +10,20 @@ spring:
     username: jhin
     password: 333
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  application:
+    name: NoteService
+  cloud:
+    discovery:
+      enabled: true
+
+
+#eureka client setting
+eureka:
+  instance:
+    hostname: localhost
+server:
+  port: 8081
+
+
