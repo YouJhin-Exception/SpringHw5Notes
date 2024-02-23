@@ -1,6 +1,7 @@
 package org.youjhin.springhw5notes.controllers;
 
 
+import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +25,11 @@ import java.util.List;
 @RequestMapping("/notes")
 @Tag(name = "Note API", description = "API для управления заметками")
 public class NoteControllerImpl implements NoteController {
+
+    private final MeterRegistry meterRegistry;
+
+
+
     private final NoteService noteService;
     /**
      * Конструирует NoteController с указанным NoteService.
@@ -31,7 +37,8 @@ public class NoteControllerImpl implements NoteController {
      * @param noteService Сервис для управления заметками.
      */
     @Autowired
-    public NoteControllerImpl(NoteService noteService) {
+    public NoteControllerImpl(MeterRegistry meterRegistry, NoteService noteService) {
+        this.meterRegistry = meterRegistry;
         this.noteService = noteService;
     }
 
@@ -44,6 +51,7 @@ public class NoteControllerImpl implements NoteController {
     @Operation(summary = "Получить все заметки", responses = {@ApiResponse(description = "Успешно", responseCode = "200")})
     @GetMapping()
     public String getAllNotes(Model model) {
+        meterRegistry.counter("getAllNotesCounter").increment();
         model.addAttribute("notes", noteService.getAllNotes());
         return "allNotes";
     }

@@ -27,3 +27,36 @@ server:
   port: 8081
 
 
+#actuator settings
+
+management:
+  endpoint:
+    health:
+      group:
+        custom:
+          include: diskSpace,ping
+          show-components: always
+          show-details: always
+          status:
+            http-mapping:
+              up: 207
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+info:
+  app:
+    name: "This Jhin's note service"
+    version: "1.0.0"
+    description: "Note service and assigned workers for tis tasks"
+
+
