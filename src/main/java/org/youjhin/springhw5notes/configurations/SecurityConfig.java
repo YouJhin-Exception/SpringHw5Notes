@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.youjhin.springhw5notes.enums.Role;
 
 @Configuration
 @EnableWebSecurity
@@ -21,9 +22,9 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/workers/**").hasRole("ADMIN")
-                                .requestMatchers("/notes/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/login","/register").permitAll()
+                                .requestMatchers("/workers/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers("/notes/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers("/login","/register","/actuator/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
