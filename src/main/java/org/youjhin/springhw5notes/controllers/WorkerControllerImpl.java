@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.youjhin.springhw5notes.controllers.interfaces.WorkerController;
 import org.youjhin.springhw5notes.model.WorkerEntity;
 import org.youjhin.springhw5notes.services.interfaces.NoteService;
 import org.youjhin.springhw5notes.services.interfaces.WorkerService;
@@ -23,7 +24,7 @@ import org.youjhin.springhw5notes.services.interfaces.WorkerService;
 @Controller
 @RequestMapping("/workers")
 @Tag(name = "Worker API", description = "API для управления работниками")
-public class WorkerController {
+public class WorkerControllerImpl implements WorkerController {
 
     private final NoteService noteService;
     private final WorkerService workerService;
@@ -34,7 +35,7 @@ public class WorkerController {
      * @param noteService   Сервис, отвечающий за управление заметками.
      * @param workerService Сервис, отвечающий за управление работниками.
      */
-    public WorkerController(NoteService noteService, WorkerService workerService) {
+    public WorkerControllerImpl(NoteService noteService, WorkerService workerService) {
         this.noteService = noteService;
         this.workerService = workerService;
     }

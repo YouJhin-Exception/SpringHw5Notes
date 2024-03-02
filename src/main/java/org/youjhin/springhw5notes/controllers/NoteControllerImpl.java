@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.youjhin.springhw5notes.controllers.interfaces.NoteController;
 import org.youjhin.springhw5notes.enums.Status;
 import org.youjhin.springhw5notes.model.NoteEntity;
 import org.youjhin.springhw5notes.services.interfaces.NoteService;
@@ -22,7 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/notes")
 @Tag(name = "Note API", description = "API для управления заметками")
-public class NoteController {
+public class NoteControllerImpl implements NoteController {
     private final NoteService noteService;
     /**
      * Конструирует NoteController с указанным NoteService.
@@ -30,7 +31,7 @@ public class NoteController {
      * @param noteService Сервис для управления заметками.
      */
     @Autowired
-    public NoteController(NoteService noteService) {
+    public NoteControllerImpl(NoteService noteService) {
         this.noteService = noteService;
     }
 

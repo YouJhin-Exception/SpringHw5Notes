@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+
+eureka:
+  instance:
+    hostname: localhost
+
+
+spring:
+  application:
+    name: gatewayService
+
+
+  cloud:
+    gateway:
+      routes:
+        - id: NoteService
+          uri: http://localhost:8081
+          predicates:
+            - Path=/login
+
+        - id: NoteService
+          uri: http://localhost:8081
+          predicates:
+            - Path=/notes
+
+        - id: NoteService
+          uri: http://localhost:8081
+          predicates:
+            - Path=/notes/**
+
+
+        - id: NoteService
+          uri: http://localhost:8081
+          predicates:
+            - Path=/workers/**
+
+
+        - id: NoteService
+          uri: http://localhost:8081
+          predicates:
+            - Path=/register
